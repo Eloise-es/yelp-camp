@@ -1,0 +1,24 @@
+{
+  "name": "yelp-camp",
+  "version": "1.0.0",
+  "description": "The final project from Colt Steele's web developer bootcamp 2023",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Eloise-es/yelp-camp.git"
+  },
+  "author": "Eloise",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Eloise-es/yelp-camp/issues"
+  },
+  "homepage": "https://github.com/Eloise-es/yelp-camp#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^6.9.1",
+    "node": "^19.6.0"
+  }
+}
