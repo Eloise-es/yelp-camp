@@ -26,3 +26,9 @@ async function main() {
 app.listen(PORT, () => {
   console.log(`server started on port ${PORT}`);
 });
+
+// Get request for home page
+app.get("/home", (req, res) => {
+  console.log("home page opened");
+  res.send("<h1>Home page</h1>");
+});
