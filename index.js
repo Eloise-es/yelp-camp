@@ -4,6 +4,7 @@ const app = express();
 const path = require("path");
 const mongoose = require("mongoose");
 const methodOverride = require("method-override");
+const PORT = process.env.PORT || 8081;
 
 //Require the model
 
@@ -20,3 +21,8 @@ async function main() {
   await mongoose.connect("mongodb://127.0.0.1:27017/yelp-camp");
   console.log("mongo connection open");
 }
+
+// Listen on the port
+app.listen(PORT, () => {
+  console.log(`server started on port ${PORT}`);
+});
