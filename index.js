@@ -4,9 +4,10 @@ const app = express();
 const path = require("path");
 const mongoose = require("mongoose");
 const methodOverride = require("method-override");
-const PORT = process.env.PORT || 8081;
+const PORT = process.env.PORT || 3000;
 
 //Require the model
+const Campground = require("./models/campground");
 
 // Settings
 app.set("views", path.join(__dirname, "views"));
@@ -28,7 +29,17 @@ app.listen(PORT, () => {
 });
 
 // Get request for home page
-app.get("/home", (req, res) => {
+app.get("/", (req, res) => {
   console.log("home page opened");
-  res.send("<h1>Home page</h1>");
+  res.render("home");
 });
+
+// Make campground
+// app.get("/makecampground", async (req, res) => {
+//   const camp = new Campground({
+//     title: "My back yard",
+//     description: "Free camping!",
+//   });
+//   await camp.save();
+//   res.send(camp);
+// });
