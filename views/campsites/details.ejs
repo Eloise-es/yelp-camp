@@ -9,5 +9,10 @@
   <body>
     <h1><%= campsite.title %></h1>
     <h2><%= campsite.location %></h2>
+    <div>
+      <a href="/campsites/edit/<%= campsite.id %>">Edit</a>
+      <button>Delete</button>
+    </div>
+    <a href="/campsites">View all campsites</a>
   </body>
 </html>

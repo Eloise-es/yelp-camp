@@ -57,5 +57,19 @@ app.post("/campsites", (req, res) => {
   const camp = new Campsite(req.body.campsite);
   camp.save();
   console.log(camp);
-  res.redirect("/campsites");
+  res.redirect(`campsites/details/${camp.id}`);
+});
+
+// Edit page for form to be on
+app.get("/campsites/edit/:id", async (req, res) => {
+  const campsite = await Campsite.findById(req.params.id);
+  res.render("campsites/edit", { campsite });
+});
+
+// PUT request from form on edit page
+app.put("/campsites/:id", async (req, res) => {
+  const campsite = await Campsite.findByIdAndUpdate(req.params.id, {
+    ...req.body.campsite,
+  });
+  res.redirect(`/campsites/details/${campsite.id}`);
 });
