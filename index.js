@@ -73,3 +73,9 @@ app.put("/campsites/:id", async (req, res) => {
   });
   res.redirect(`/campsites/details/${campsite.id}`);
 });
+
+// DELETE request for button on details page
+app.delete("/campsites/:id", async (req, res) => {
+  await Campsite.findByIdAndDelete(req.params.id);
+  res.redirect("/campsites");
+});
