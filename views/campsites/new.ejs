@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add new campsite</title>
+  </head>
+  <body>
+    <h1>Add a new campsite</h1>
+    <form action="/campsites" method="POST">
+      <label for="title">Name of campsite</label>
+      <input
+        type="text"
+        name="campsite[title]"
+        id="title"
+        placeholder="title"
+      />
+      <label for="location">Location of campsite</label>
+      <input
+        type="text"
+        name="campsite[location]"
+        id="location"
+        placeholder="location"
+      />
+      <button>Submit</button>
+    </form>
+  </body>
+</html>
