@@ -7,7 +7,7 @@ const methodOverride = require("method-override");
 const PORT = process.env.PORT || 3000;
 
 //Require the model
-const Campground = require("./models/campground");
+const Campsite = require("./models/campsite");
 
 // Settings
 app.set("views", path.join(__dirname, "views"));
@@ -34,12 +34,16 @@ app.get("/", (req, res) => {
   res.render("home");
 });
 
-// Make campground
-// app.get("/makecampground", async (req, res) => {
-//   const camp = new Campground({
-//     title: "My back yard",
-//     description: "Free camping!",
-//   });
-//   await camp.save();
-//   res.send(camp);
-// });
+
+// C - Render the form to add new campsite
+app.get("/campsites/new", (req, res) => {
+  res.render("campsites/new");
+});
+
+// C - Form post request to add new campsite
+app.post("/campsites", (req, res) => {
+  const camp = new Campsite(req.body.campsite);
+  camp.save();
+  console.log(camp);
+  res.redirect("/campsites");
+});
