@@ -34,6 +34,18 @@ app.get("/", (req, res) => {
   res.render("home");
 });
 
+// R - View all campsites index
+app.get("/campsites", async (req, res) => {
+  const campsites = await Campsite.find({});
+  res.render("campsites/index", { campsites });
+});
+
+// R - Show details page for specific campsite
+app.get("/campsites/details/:id", async (req, res) => {
+  const { id } = req.params;
+  const campsite = await Campsite.findById(id);
+  res.render("campsites/details", { campsite });
+});
 
 // C - Render the form to add new campsite
 app.get("/campsites/new", (req, res) => {
