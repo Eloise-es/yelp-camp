@@ -1,33 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Edit campsite</title>
-  </head>
-  <body>
-    <h1>Edit campsite</h1>
-    <form action="/campsites/<%= campsite.id %>?_method=PUT" method="POST">
-      <label for="title">Name of campsite</label>
-      <input
-        type="text"
-        name="campsite[title]"
-        id="title"
-        placeholder="title"
-        value="<%= campsite.title %> "
-      />
-      <label for="location">Location of campsite</label>
-      <input
-        type="text"
-        name="campsite[location]"
-        id="location"
-        placeholder="location"
-        value="<%= campsite.location %> "
-      />
-      <button>Update</button>
-    </form>
-    <p><a href="/campsites/details/<%= campsite.id %> ">Cancel</a></p>
-    <a href="/campsites">View all campsites</a>
-  </body>
-</html>
+<% layout('layouts/boilerplate') %>
+<h1>Edit campsite</h1>
+<form action="/campsites/<%= campsite.id %>?_method=PUT" method="POST">
+  <label for="title">Name of campsite</label>
+  <input
+    type="text"
+    name="campsite[title]"
+    id="title"
+    placeholder="title"
+    value="<%= campsite.title %> "
+  />
+  <label for="location">Location of campsite</label>
+  <input
+    type="text"
+    name="campsite[location]"
+    id="location"
+    placeholder="location"
+    value="<%= campsite.location %> "
+  />
+  <button>Update</button>
+</form>
+<p><a href="/campsites/details/<%= campsite.id %> ">Cancel</a></p>
+<a href="/campsites">View all campsites</a>
