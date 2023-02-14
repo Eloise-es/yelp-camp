@@ -1,15 +1,63 @@
 <% layout('layouts/boilerplate') %>
-<h1>Add a new campsite</h1>
-<form action="/campsites" method="POST">
-  <label for="title">Name of campsite</label>
-  <input type="text" name="campsite[title]" id="title" placeholder="title" />
-  <label for="location">Location of campsite</label>
-  <input
-    type="text"
-    name="campsite[location]"
-    id="location"
-    placeholder="location"
-  />
-  <button>Submit</button>
-</form>
-<a href="/campsites">View all campsites</a>
+<div class="row">
+  <h1 class="text-center">New Campsite</h1>
+  <di class="col-6 offset-3">
+    <form action="/campsites" method="POST">
+      <div class="mb-3">
+        <label for="title" class="form-label">Name</label>
+        <input
+          type="text"
+          name="campsite[title]"
+          id="title"
+          class="form-control"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="location" class="form-label">Location</label>
+        <input
+          type="text"
+          name="campsite[location]"
+          id="location"
+          class="form-control"
+        />
+      </div>
+
+      <div class="mb-3">
+        <label for="image" class="form-label">Link to image</label>
+        <input
+          type="text"
+          name="campsite[img]"
+          id="img"
+          placeholder="image url"
+          class="form-control"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea
+          type="text"
+          name="campsite[description]"
+          id="description"
+          placeholder="description"
+          class="form-control"
+        ></textarea>
+      </div>
+      <div class="mb-3">
+        <label for="price" class="form-label">Price per night</label>
+        <div class="input-group">
+          <span class="input-group-text">£</span>
+          <input
+            type="text"
+            class="form-control"
+            id="price"
+            placeholder="0.00"
+            name="campsite[price]"
+            aria-label="Amount (to the nearest pound)"
+          />
+        </div>
+      </div>
+      <div class="mb-3"><button class="btn btn-success">Submit</button></div>
+    </form>
+    <a href="/campsites">View all campsites</a>
+  </di>
+</div>
