@@ -23,14 +23,14 @@
           </li>
         </ul>
         <div class="card-body row justify-items-evenly">
-          <a href="/campsites" class="btn btn-info col m-2">Back</a>
+          <a href="/campsites" class="btn btn-secondary col m-2 px-0">Back</a>
           <a
-            class="btn btn-success col m-2"
+            class="btn btn-success col m-2 px-0"
             href="/campsites/edit/<%= campsite.id %>"
             >Edit</a
           >
           <form
-            class="d-inline col m-2 p-0"
+            class="d-inline col m-2 px-0"
             action="/campsites/<%= campsite.id %>?_method=DELETE"
             method="POST"
           >
