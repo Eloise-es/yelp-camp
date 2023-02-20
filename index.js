@@ -7,6 +7,7 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const morgan = require("morgan");
 const catchAsync = require("./utils/catchAsync");
+const ExpressError = require("./utils/ExpressError");
 const PORT = process.env.PORT || 3000;
 
 //Require the model
@@ -63,12 +64,17 @@ app.get("/campsites/new", (req, res) => {
 });
 
 // C - Form post request to add new campsite
-app.post("/campsites", (req, res) => {
-  const camp = new Campsite(req.body.campsite);
-  camp.save();
-  console.log(camp);
-  res.redirect(`campsites/details/${camp.id}`);
-});
+app.post(
+  "/campsites",
+  catchAsync(async (req, res) => {
+    if (!req.body.campsite)
+      throw new ExpressError("Invalid Campsite Data", 400);
+    const camp = new Campsite(req.body.campsite);
+    await camp.save();
+    console.log(camp);
+    res.redirect(`campsites/details/${camp.id}`);
+  })
+);
 
 // U - Edit page for form to be on
 app.get(
@@ -99,8 +105,17 @@ app.delete(
   })
 );
 
-// Error handling
+// Error handling!!!
 
+// Page doesn't exist
+app.all("*", (req, res, next) => {
+  next(new ExpressError("Page not found", 404));
+});
+
+// All errors lead here
 app.use((err, req, res, next) => {
-  res.send("something went wrong");
+  const { statusCode = 500 } = err;
+  if (!err.message) err.message = "Not sure what went wrong";
+  if (!err.statusCode) err.statusCode = 500;
+  res.status(statusCode).render("error", { err });
 });
