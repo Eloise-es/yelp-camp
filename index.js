@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const morgan = require("morgan");
+const catchAsync = require("./utils/catchAsync");
 const PORT = process.env.PORT || 3000;
 
 //Require the model
@@ -38,17 +39,23 @@ app.get("/", (req, res) => {
 });
 
 // R - View all campsites index
-app.get("/campsites", async (req, res) => {
-  const campsites = await Campsite.find({});
-  res.render("campsites/index", { campsites });
-});
+app.get(
+  "/campsites",
+  catchAsync(async (req, res) => {
+    const campsites = await Campsite.find({});
+    res.render("campsites/index", { campsites });
+  })
+);
 
 // R - Show details page for specific campsite
-app.get("/campsites/details/:id", async (req, res) => {
-  const { id } = req.params;
-  const campsite = await Campsite.findById(id);
-  res.render("campsites/details", { campsite });
-});
+app.get(
+  "/campsites/details/:id",
+  catchAsync(async (req, res) => {
+    const { id } = req.params;
+    const campsite = await Campsite.findById(id);
+    res.render("campsites/details", { campsite });
+  })
+);
 
 // C - Render the form to add new campsite
 app.get("/campsites/new", (req, res) => {
@@ -63,22 +70,37 @@ app.post("/campsites", (req, res) => {
   res.redirect(`campsites/details/${camp.id}`);
 });
 
-// Edit page for form to be on
-app.get("/campsites/edit/:id", async (req, res) => {
-  const campsite = await Campsite.findById(req.params.id);
-  res.render("campsites/edit", { campsite });
-});
+// U - Edit page for form to be on
+app.get(
+  "/campsites/edit/:id",
+  catchAsync(async (req, res) => {
+    const campsite = await Campsite.findById(req.params.id);
+    res.render("campsites/edit", { campsite });
+  })
+);
 
-// PUT request from form on edit page
-app.put("/campsites/:id", async (req, res) => {
-  const campsite = await Campsite.findByIdAndUpdate(req.params.id, {
-    ...req.body.campsite,
-  });
-  res.redirect(`/campsites/details/${campsite.id}`);
-});
+// U - PUT request from form on edit page
+app.put(
+  "/campsites/:id",
+  catchAsync(async (req, res) => {
+    const campsite = await Campsite.findByIdAndUpdate(req.params.id, {
+      ...req.body.campsite,
+    });
+    res.redirect(`/campsites/details/${campsite.id}`);
+  })
+);
 
-// DELETE request for button on details page
-app.delete("/campsites/:id", async (req, res) => {
-  await Campsite.findByIdAndDelete(req.params.id);
-  res.redirect("/campsites");
+// D - DELETE request for button on details page
+app.delete(
+  "/campsites/:id",
+  catchAsync(async (req, res) => {
+    await Campsite.findByIdAndDelete(req.params.id);
+    res.redirect("/campsites");
+  })
+);
+
+// Error handling
+
+app.use((err, req, res, next) => {
+  res.send("something went wrong");
 });
