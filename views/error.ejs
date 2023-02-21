@@ -6,6 +6,13 @@
       <p><%= err.statusCode %>: <%= err.message %></p>
       <hr />
       <small><%= err.stack %></small>
+      <br />
+      <input
+        type="button"
+        class="btn btn-secondary"
+        value="Go back"
+        onclick="history.back()"
+      />
     </div>
   </div>
 </div>
