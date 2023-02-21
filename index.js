@@ -10,8 +10,9 @@ const catchAsync = require("./utils/catchAsync");
 const ExpressError = require("./utils/ExpressError");
 const PORT = process.env.PORT || 3000;
 
-//Require the model
+//Require the model and schema
 const Campsite = require("./models/campsite");
+const { campsiteSchema } = require("./schemas.js");
 
 // Settings
 app.engine("ejs", ejsMate);
@@ -28,6 +29,16 @@ async function main() {
   await mongoose.connect("mongodb://127.0.0.1:27017/yelp-camp");
   console.log("mongo connection open");
 }
+
+const validateCampsite = (req, res, next) => {
+  const { error } = campsiteSchema.validate(req.body);
+  if (error) {
+    const msg = error.details.map((el) => el.message).join(",");
+    throw new ExpressError(msg, 400);
+  } else {
+    next();
+  }
+};
 
 // Listen on the port
 app.listen(PORT, () => {
@@ -66,9 +77,8 @@ app.get("/campsites/new", (req, res) => {
 // C - Form post request to add new campsite
 app.post(
   "/campsites",
+  validateCampsite,
   catchAsync(async (req, res) => {
-    if (!req.body.campsite)
-      throw new ExpressError("Invalid Campsite Data", 400);
     const camp = new Campsite(req.body.campsite);
     await camp.save();
     console.log(camp);
@@ -88,6 +98,7 @@ app.get(
 // U - PUT request from form on edit page
 app.put(
   "/campsites/:id",
+  validateCampsite,
   catchAsync(async (req, res) => {
     const campsite = await Campsite.findByIdAndUpdate(req.params.id, {
       ...req.body.campsite,
