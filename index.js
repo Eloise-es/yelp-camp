@@ -13,6 +13,7 @@ const PORT = process.env.PORT || 3000;
 //Require the model and schema
 const Campsite = require("./models/campsite");
 const { campsiteSchema } = require("./schemas.js");
+const Review = require("./models/review");
 
 // Settings
 app.engine("ejs", ejsMate);
@@ -113,6 +114,20 @@ app.delete(
   catchAsync(async (req, res) => {
     await Campsite.findByIdAndDelete(req.params.id);
     res.redirect("/campsites");
+  })
+);
+
+// Reviews form post request
+app.post(
+  "/campsites/:id/reviews",
+  catchAsync(async (req, res) => {
+    const camp = await Campsite.findById(req.params.id);
+    const review = new Review(req.body.review);
+    camp.reviews.push(review);
+    await review.save();
+    await camp.save();
+    console.log(camp, review);
+    res.redirect(`/campsites/details/${camp.id}`);
   })
 );
 

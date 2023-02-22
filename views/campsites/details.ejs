@@ -38,6 +38,43 @@
           </form>
         </div>
       </div>
+      <div class="card mb-2 mt-2">
+        <div class="card-body">
+          <h5 class="card-title">Leave a review</h5>
+          <form
+            class="row row-cols-lg-auto g-4 align-items-center"
+            action="/campsites/<%= campsite.id %>/reviews"
+            method="POST"
+          >
+            <div class="col-12">
+              <label class="form-label" for="rating">Rating:</label>
+              <input
+                type="range"
+                step="1"
+                min="1"
+                max="5"
+                class="form-range"
+                id="rating"
+                name="review[rating]"
+              />
+            </div>
+
+            <div class="col-12">
+              <label class="form-label" for="body"
+                >Write your review here:</label
+              >
+              <textarea
+                class="form-control"
+                name="review[body]"
+                id="body"
+              ></textarea>
+            </div>
+            <div class="col-12">
+              <button class="btn btn-primary">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
   </div>
 </div>
