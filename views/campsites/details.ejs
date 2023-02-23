@@ -3,15 +3,24 @@
 <!-- New card version -->
 <div class="container">
   <div class="row justify-items-evenly">
-    <div class="col-6">
+    <div class="col-12 col-md-6">
       <div class="card mb-2">
-        <img
+        <!-- <img
+          style="object-fit: cover; height: 15vw"
           src="<%= campsite.img %>"
           class="card-img-top"
           alt="Image of <%= campsite.title %>"
-        />
+        /> -->
+        <div class="ratio ratio-16x9">
+          <img
+            style="object-fit: cover"
+            alt="Image of <%= campsite.title %>"
+            class="card-img-top img-fluid"
+            src="<%= campsite.img %>"
+          />
+        </div>
         <div class="card-body">
-          <h5 class="card-title"><%= campsite.title %></h5>
+          <h2 class="card-title"><%= campsite.title %></h2>
           <p class="card-text"><%= campsite.description %></p>
         </div>
         <ul class="list-group list-group-flush">
@@ -38,26 +47,30 @@
           </form>
         </div>
       </div>
-      <div class="card mb-2 mt-2">
+    </div>
+    <div class="col-12 col-md-6">
+      <div class="card text-bg-light mb-3">
+        <h5 class="card-header">Leave a review</h5>
         <div class="card-body">
-          <h5 class="card-title">Leave a review</h5>
           <form
-            class="row row-cols-lg-auto g-4 align-items-center validated-form"
+            class="validated-form"
             action="/campsites/<%= campsite.id %>/reviews"
             method="POST"
             novalidate
           >
             <div class="col-12">
               <label class="form-label" for="rating">Rating:</label>
-              <input
-                type="range"
-                step="1"
-                min="1"
-                max="5"
-                class="form-range"
-                id="rating"
-                name="review[rating]"
-              />
+              <div class="col-sm-5">
+                <input
+                  type="range"
+                  step="1"
+                  min="1"
+                  max="5"
+                  class="form-range"
+                  id="rating"
+                  name="review[rating]"
+                />
+              </div>
             </div>
 
             <div class="col-12">
@@ -76,35 +89,39 @@
               </div>
             </div>
             <div class="col-12">
-              <button class="btn btn-primary">Submit</button>
+              <button class="btn btn-primary mt-2">Submit</button>
             </div>
           </form>
         </div>
       </div>
-      <div class="card mb-2">
+      <div class="card mb-2 text-bg-light">
         <% if (campsite.numberOfRatings) { %>
+        <h5 class="card-header">Reviews of <%= campsite.title %></h5>
         <div class="card-body">
-          <h5 class="card-title">Reviews of <%= campsite.title %></h5>
-          <p>
+          <h6 class="card-title">
             Average rating: <%= campsite.averageRating.toFixed(1) %>
             <span class="text-muted">
               <% if (campsite.numberOfRatings = 1) {%> (1 review) <% } else { %>
               (<%=campsite.numberOfRatings %> reviews) <% } %>
             </span>
-          </p>
+          </h6>
         </div>
-        <ul class="list-group list-group-flush">
-          <% for (let review of campsite.reviews) {%>
-          <li class="list-group-item">
-            <span><strong><%= review.rating %> stars</strong></span>
-            <span> - <%= review.body %></span>
-          </li>
-          <% } %>
-        </ul>
-        <% } else { %>
+        <% for (let review of campsite.reviews) {%>
+        <div class="card mx-2 mb-2">
+          <div class="card-body">
+            <h5 class="card-title">
+              <%= '⭐'.repeat(review.rating) %>
+              <span class="text-muted">(<%= review.rating %> stars)</span>
+            </h5>
+            <p class="card-text"><%= review.body %></p>
+          </div>
+        </div>
+        <% } %> <% } else { %>
         <div class="card-body">
           <h5 class="card-title">Reviews of <%= campsite.title %></h5>
-          <p>No reviews yet, be the first to post a review!</p>
+          <p class="card-text">
+            No reviews yet, be the first to post a review!
+          </p>
         </div>
         <% } %>
       </div>
