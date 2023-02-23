@@ -159,6 +159,18 @@ app.post(
   })
 );
 
+// D - reviews delete request
+app.delete(
+  "/campsites/:id/reviews/:reviewId",
+  catchAsync(async (req, res) => {
+    const { id, reviewId } = req.params;
+    await Campsite.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
+    await Review.findByIdAndDelete(reviewId);
+    calculateAverageRating(id);
+    res.redirect(`/campsites/details/${id}`);
+  })
+);
+
 // Error handling!!!
 
 // Page doesn't exist
