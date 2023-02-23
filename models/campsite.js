@@ -15,6 +15,8 @@ const CampsiteSchema = new Schema({
       ref: "Review",
     },
   ],
+  averageRating: Number,
+  numberOfRatings: Number,
 });
 
 module.exports = mongoose.model("Campsite", CampsiteSchema);

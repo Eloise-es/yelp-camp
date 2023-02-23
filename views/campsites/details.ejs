@@ -81,6 +81,33 @@
           </form>
         </div>
       </div>
+      <div class="card mb-2">
+        <% if (campsite.numberOfRatings) { %>
+        <div class="card-body">
+          <h5 class="card-title">Reviews of <%= campsite.title %></h5>
+          <p>
+            Average rating: <%= campsite.averageRating.toFixed(1) %>
+            <span class="text-muted">
+              <% if (campsite.numberOfRatings = 1) {%> (1 review) <% } else { %>
+              (<%=campsite.numberOfRatings %> reviews) <% } %>
+            </span>
+          </p>
+        </div>
+        <ul class="list-group list-group-flush">
+          <% for (let review of campsite.reviews) {%>
+          <li class="list-group-item">
+            <span><strong><%= review.rating %> stars</strong></span>
+            <span> - <%= review.body %></span>
+          </li>
+          <% } %>
+        </ul>
+        <% } else { %>
+        <div class="card-body">
+          <h5 class="card-title">Reviews of <%= campsite.title %></h5>
+          <p>No reviews yet, be the first to post a review!</p>
+        </div>
+        <% } %>
+      </div>
     </div>
   </div>
 </div>

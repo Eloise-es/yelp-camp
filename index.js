@@ -51,6 +51,20 @@ const validateReview = (req, res, next) => {
   }
 };
 
+const calculateAverageRating = async (camp) => {
+  const allRatings = [];
+  for (let review of camp.reviews) {
+    allRatings.push(review.rating);
+  }
+  const sum = allRatings.reduce((a, b) => a + b, 0);
+  const average = sum / allRatings.length;
+  console.log("all: ", allRatings, "sum: ", sum, "Avg: ", average);
+  await Campsite.findByIdAndUpdate(camp.id, {
+    averageRating: average,
+    numberOfRatings: allRatings.length,
+  });
+};
+
 // Listen on the port
 app.listen(PORT, () => {
   console.log(`server started on port ${PORT}`);
@@ -138,6 +152,7 @@ app.post(
     await review.save();
     await camp.save();
     console.log(camp, review);
+    calculateAverageRating(await camp.populate("reviews"));
     res.redirect(`/campsites/details/${camp.id}`);
   })
 );
