@@ -51,7 +51,8 @@ const validateReview = (req, res, next) => {
   }
 };
 
-const calculateAverageRating = async (camp) => {
+const calculateAverageRating = async (campId) => {
+  const camp = await Campsite.findById(campId).populate("reviews");
   const allRatings = [];
   for (let review of camp.reviews) {
     allRatings.push(review.rating);
@@ -59,7 +60,7 @@ const calculateAverageRating = async (camp) => {
   const sum = allRatings.reduce((a, b) => a + b, 0);
   const average = sum / allRatings.length;
   console.log("all: ", allRatings, "sum: ", sum, "Avg: ", average);
-  await Campsite.findByIdAndUpdate(camp.id, {
+  await Campsite.findByIdAndUpdate(campId, {
     averageRating: average,
     numberOfRatings: allRatings.length,
   });
@@ -141,7 +142,9 @@ app.delete(
   })
 );
 
-// Reviews form post request
+// REVIEWS
+
+// C - Reviews form post request
 app.post(
   "/campsites/:id/reviews",
   validateReview,
@@ -151,8 +154,7 @@ app.post(
     camp.reviews.push(review);
     await review.save();
     await camp.save();
-    console.log(camp, review);
-    calculateAverageRating(await camp.populate("reviews"));
+    calculateAverageRating(req.params.id);
     res.redirect(`/campsites/details/${camp.id}`);
   })
 );
