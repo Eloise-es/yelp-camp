@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 3000;
 
 //Require the model and schema
 const Campsite = require("./models/campsite");
-const { campsiteSchema } = require("./schemas.js");
+const { campsiteSchema, reviewSchema } = require("./schemas.js");
 const Review = require("./models/review");
 
 // Settings
@@ -33,6 +33,16 @@ async function main() {
 
 const validateCampsite = (req, res, next) => {
   const { error } = campsiteSchema.validate(req.body);
+  if (error) {
+    const msg = error.details.map((el) => el.message).join(",");
+    throw new ExpressError(msg, 400);
+  } else {
+    next();
+  }
+};
+
+const validateReview = (req, res, next) => {
+  const { error } = reviewSchema.validate(req.body);
   if (error) {
     const msg = error.details.map((el) => el.message).join(",");
     throw new ExpressError(msg, 400);
@@ -65,7 +75,7 @@ app.get(
   "/campsites/details/:id",
   catchAsync(async (req, res) => {
     const { id } = req.params;
-    const campsite = await Campsite.findById(id);
+    const campsite = await Campsite.findById(id).populate("reviews");
     res.render("campsites/details", { campsite });
   })
 );
@@ -120,6 +130,7 @@ app.delete(
 // Reviews form post request
 app.post(
   "/campsites/:id/reviews",
+  validateReview,
   catchAsync(async (req, res) => {
     const camp = await Campsite.findById(req.params.id);
     const review = new Review(req.body.review);
