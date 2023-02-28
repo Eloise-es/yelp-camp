@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const morgan = require("morgan");
+const session = require("express-session");
 const ExpressError = require("./utils/ExpressError");
 const PORT = process.env.PORT || 3000;
 
@@ -25,6 +26,13 @@ app.use(express.static("public"));
 // OTHER MODULES
 app.use(methodOverride("_method"));
 app.use(morgan("dev"));
+// SESSIONS SETUP
+const sessionConfig = {
+  secret: "thisshouldbeabettersecret!!!",
+  resave: false,
+  saveUninitialized: true,
+};
+app.use(session(sessionConfig));
 
 // Mongoose connection to MongoDB
 main().catch((err) => console.log(err));
