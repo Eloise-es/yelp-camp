@@ -7,6 +7,7 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const morgan = require("morgan");
 const session = require("express-session");
+const flash = require("connect-flash");
 const ExpressError = require("./utils/ExpressError");
 const PORT = process.env.PORT || 3000;
 
@@ -26,6 +27,7 @@ app.use(express.static("public"));
 // OTHER MODULES
 app.use(methodOverride("_method"));
 app.use(morgan("dev"));
+app.use(flash());
 // SESSIONS SETUP
 const sessionConfig = {
   secret: "thisshouldbeabettersecret!!!",
