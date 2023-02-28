@@ -14,14 +14,17 @@ const campsites = require("./routes/campsites");
 const reviews = require("./routes/reviews");
 
 // Settings
+mongoose.set("strictQuery", false);
+app.use(express.urlencoded({ extended: true }));
+// EJS SETUP
 app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
+// SERVE DIRECTORIES
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static("public"));
-app.use(express.urlencoded({ extended: true }));
+// OTHER MODULES
 app.use(methodOverride("_method"));
 app.use(morgan("dev"));
-mongoose.set("strictQuery", false);
 
 // Mongoose connection to MongoDB
 main().catch((err) => console.log(err));
