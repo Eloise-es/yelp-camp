@@ -46,6 +46,7 @@ router.post(
     await review.save();
     await camp.save();
     calculateAverageRating(req.params.id);
+    req.flash("success", "Your review has been posted!");
     res.redirect(`/campsites/details/${camp.id}`);
   })
 );
@@ -58,6 +59,7 @@ router.delete(
     await Campsite.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
     await Review.findByIdAndDelete(reviewId);
     calculateAverageRating(id);
+    req.flash("success", "Review successfully deleted!");
     res.redirect(`/campsites/details/${id}`);
   })
 );

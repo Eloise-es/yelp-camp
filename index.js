@@ -27,7 +27,6 @@ app.use(express.static("public"));
 // OTHER MODULES
 app.use(methodOverride("_method"));
 app.use(morgan("dev"));
-app.use(flash());
 // SESSIONS SETUP
 const sessionConfig = {
   secret: "thisshouldbeabettersecret!!!",
@@ -40,6 +39,13 @@ const sessionConfig = {
   },
 };
 app.use(session(sessionConfig));
+// FLASH + FLASH MIDDLEWARE
+app.use(flash());
+app.use((req, res, next) => {
+  res.locals.success = req.flash("success");
+  res.locals.error = req.flash("error");
+  next();
+});
 
 // Mongoose connection to MongoDB
 main().catch((err) => console.log(err));

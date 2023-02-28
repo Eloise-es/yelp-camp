@@ -15,7 +15,9 @@
   </head>
   <body class="d-flex flex-column vh-100 mt-auto">
     <%- include('../partials/navbar') %>
-    <main class="m-4"><%- body %></main>
+    <main class="container m-4">
+      <%- include('../partials/flash') %> <%- body %>
+    </main>
     <%- include('../partials/footer') %>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
