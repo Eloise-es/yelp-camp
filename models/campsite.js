@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const Review = require("./review");
 
 // Save review IDs to an array, with ref 'Review' meaning review schema
-const CampsiteSchema = new Schema({
+const campsiteSchema = new Schema({
   title: String,
   price: Number,
   description: String,
@@ -21,7 +21,7 @@ const CampsiteSchema = new Schema({
   numberOfRatings: Number,
 });
 
-CampsiteSchema.post("findOneAndDelete", async function (doc) {
+campsiteSchema.post("findOneAndDelete", async function (doc) {
   console.log(doc);
   if (doc) {
     await Review.deleteMany({
@@ -32,4 +32,4 @@ CampsiteSchema.post("findOneAndDelete", async function (doc) {
   }
 });
 
-module.exports = mongoose.model("Campsite", CampsiteSchema);
+module.exports = mongoose.model("Campsite", campsiteSchema);
