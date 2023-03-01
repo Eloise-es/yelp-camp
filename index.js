@@ -8,12 +8,19 @@ const ejsMate = require("ejs-mate");
 const morgan = require("morgan");
 const session = require("express-session");
 const flash = require("connect-flash");
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
+
 const ExpressError = require("./utils/ExpressError");
 const PORT = process.env.PORT || 3000;
 
 // Require the routes
-const campsites = require("./routes/campsites");
-const reviews = require("./routes/reviews");
+const userRoutes = require("./routes/users");
+const campsiteRoutes = require("./routes/campsites");
+const reviewRoutes = require("./routes/reviews");
+
+// Require the models
+const User = require("./models/user");
 
 // Settings
 mongoose.set("strictQuery", false);
@@ -46,6 +53,12 @@ app.use((req, res, next) => {
   res.locals.error = req.flash("error");
   next();
 });
+// PASSPORT SETUP (must come after session setup)
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 // Mongoose connection to MongoDB
 main().catch((err) => console.log(err));
@@ -65,8 +78,9 @@ app.get("/", (req, res) => {
 });
 
 // CAMPSITES and REVIEWS (link to routes)
-app.use("/campsites", campsites);
-app.use("/campsites/:id/reviews", reviews);
+app.use("/", userRoutes);
+app.use("/campsites", campsiteRoutes);
+app.use("/campsites/:id/reviews", reviewRoutes);
 
 // Error handling!!! Page doesn't exist
 app.all("*", (req, res, next) => {
