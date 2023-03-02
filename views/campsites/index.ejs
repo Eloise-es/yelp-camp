@@ -1,7 +1,7 @@
 <% layout('layouts/boilerplate') %>
 <h1>All Campsites</h1>
 
-<% for(let campsite of campsites) {%>
+<% for(let campsite of campsites.reverse()) {%>
 <div class="card mb-1">
   <div class="row">
     <div class="col-md-4">
