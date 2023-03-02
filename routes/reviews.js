@@ -26,13 +26,20 @@ const calculateAverageRating = async (campId) => {
   for (let review of camp.reviews) {
     allRatings.push(review.rating);
   }
-  const sum = allRatings.reduce((a, b) => a + b, 0);
-  const average = sum / allRatings.length;
-  console.log("all: ", allRatings, "sum: ", sum, "Avg: ", average);
-  await Campsite.findByIdAndUpdate(campId, {
-    averageRating: average,
-    numberOfRatings: allRatings.length,
-  });
+  if (!allRatings.length) {
+    await Campsite.findByIdAndUpdate(campId, {
+      averageRating: undefined,
+      numberOfRatings: undefined,
+    });
+  } else {
+    const sum = allRatings.reduce((a, b) => a + b, 0);
+    const average = sum / allRatings.length;
+    console.log("all: ", allRatings, "sum: ", sum, "Avg: ", average);
+    await Campsite.findByIdAndUpdate(campId, {
+      averageRating: average,
+      numberOfRatings: allRatings.length,
+    });
+  }
 };
 
 // C - Reviews form post request
