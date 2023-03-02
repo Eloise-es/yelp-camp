@@ -10,6 +10,7 @@ const { campsiteSchema } = require("../schemas.js");
 
 // Middleware/functions for these routes
 const { isLoggedIn } = require("../middleware");
+const campsite = require("../models/campsite");
 const validateCampsite = (req, res, next) => {
   const { error } = campsiteSchema.validate(req.body);
   if (error) {
@@ -34,7 +35,10 @@ router.get(
   "/details/:id",
   catchAsync(async (req, res) => {
     const { id } = req.params;
-    const campsite = await Campsite.findById(id).populate("reviews");
+    const campsite = await Campsite.findById(id)
+      .populate("reviews")
+      .populate("author");
+    console.log(campsite);
     if (!campsite) {
       req.flash("error", "Can't find that campsite!");
       res.redirect("/campsites");
@@ -56,6 +60,7 @@ router.post(
   validateCampsite,
   catchAsync(async (req, res) => {
     const camp = new Campsite(req.body.campsite);
+    camp.author = req.user.id;
     await camp.save();
     req.flash("success", "Successfully made a new campsite!");
     res.redirect(`campsites/details/${camp.id}`);

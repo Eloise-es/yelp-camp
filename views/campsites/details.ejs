@@ -30,6 +30,9 @@
           <li class="list-group-item text-muted">
             Price per night: £<%= campsite.price %>
           </li>
+          <li class="list-group-item text-muted">
+            Submitted by <%= campsite.author.username %>
+          </li>
         </ul>
         <div class="card-body row justify-items-evenly">
           <a href="/campsites" class="btn btn-secondary col m-2 px-0">Back</a>
