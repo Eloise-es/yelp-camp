@@ -1,6 +1,7 @@
 // Require the modules
 const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
+const axios = require("axios");
 
 //Require the model AND SEED DATA
 const Campsite = require("../models/campsite");
@@ -18,10 +19,23 @@ async function main() {
 const sample = (array) => array[Math.floor(Math.random() * array.length)];
 
 // Image generator
-const collectionID = 9046579; // the collection ID from the Unsplash url
-function renderImage(randomNumber) {
-  return `https://source.unsplash.com/collection/${collectionID}/480x400/?sig=${randomNumber}`;
-}
+// const collectionID = 9046579; // the collection ID from the Unsplash url
+// function renderImage(randomNumber) {
+//   return `https://source.unsplash.com/collection/${collectionID}/480x400/?sig=${randomNumber}`;
+// }
+
+// New img generator
+const renderImage = async (randomNumber) => {
+  try {
+    const res = await axios.get(
+      `https://picsum.photos/id/${randomNumber}/info`
+    );
+    return res.data.download_url;
+  } catch (e) {
+    console.log("ERROR", e);
+    return "https://images.unsplash.com/2/02.jpg?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80";
+  }
+};
 
 // This will delete everything in the database, then replace it with 50 new campsites
 const seedDB = async () => {
@@ -29,11 +43,12 @@ const seedDB = async () => {
   for (let i = 0; i < 50; i++) {
     const random1000 = Math.floor(Math.random() * 1000);
     const price = Math.floor(Math.random() * 50);
-    const imgUrl = renderImage(Math.floor(Math.random() * 300));
+    const imgUrl = await renderImage(i + 32);
     const camp = new Campsite({
       title: `${sample(descriptors)} ${sample(places)}`,
       location: `${cities[random1000].city}, ${cities[random1000].state}`,
       img: imgUrl,
+      author: "640099d63b8d374ad71d94e4",
       description:
         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt enim nostrum minus provident error, dolorum doloribus necessitatibus ab itaque quaerat corporis mollitia aspernatur cupiditate modi eos porro? Voluptatem, itaque neque!",
       price,
