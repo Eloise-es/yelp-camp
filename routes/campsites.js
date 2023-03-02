@@ -9,6 +9,7 @@ const Campsite = require("../models/campsite");
 const { campsiteSchema } = require("../schemas.js");
 
 // Middleware/functions for these routes
+const { isLoggedIn } = require("../middleware");
 const validateCampsite = (req, res, next) => {
   const { error } = campsiteSchema.validate(req.body);
   if (error) {
@@ -44,13 +45,14 @@ router.get(
 );
 
 // C - Render the form to add new campsite
-router.get("/new", (req, res) => {
+router.get("/new", isLoggedIn, (req, res) => {
   res.render("campsites/new");
 });
 
 // C - Form post request to add new campsite
 router.post(
   "/",
+  isLoggedIn,
   validateCampsite,
   catchAsync(async (req, res) => {
     const camp = new Campsite(req.body.campsite);
@@ -63,6 +65,7 @@ router.post(
 // U - Edit page for form to be on
 router.get(
   "/edit/:id",
+  isLoggedIn,
   catchAsync(async (req, res) => {
     const campsite = await Campsite.findById(req.params.id);
     res.render("campsites/edit", { campsite });
@@ -72,6 +75,7 @@ router.get(
 // U - PUT request from form on edit page
 router.put(
   "/:id",
+  isLoggedIn,
   validateCampsite,
   catchAsync(async (req, res) => {
     const campsite = await Campsite.findByIdAndUpdate(req.params.id, {
@@ -85,6 +89,7 @@ router.put(
 // D - DELETE request for button on details page
 router.delete(
   "/:id",
+  isLoggedIn,
   catchAsync(async (req, res) => {
     await Campsite.findByIdAndDelete(req.params.id);
     req.flash("success", "Campsite successfuly deleted");

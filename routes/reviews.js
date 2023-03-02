@@ -9,6 +9,7 @@ const Review = require("../models/review");
 const { reviewSchema } = require("../schemas.js");
 
 // Middleware and functions related to this route
+const { isLoggedIn } = require("../middleware");
 const validateReview = (req, res, next) => {
   const { error } = reviewSchema.validate(req.body);
   if (error) {
@@ -37,6 +38,7 @@ const calculateAverageRating = async (campId) => {
 // C - Reviews form post request
 router.post(
   "/",
+  isLoggedIn,
   validateReview,
   catchAsync(async (req, res) => {
     const camp = await Campsite.findById(req.params.id);

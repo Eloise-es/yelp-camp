@@ -46,19 +46,30 @@ const sessionConfig = {
   },
 };
 app.use(session(sessionConfig));
-// FLASH + FLASH MIDDLEWARE
-app.use(flash());
-app.use((req, res, next) => {
-  res.locals.success = req.flash("success");
-  res.locals.error = req.flash("error");
-  next();
-});
+
 // PASSPORT SETUP (must come after session setup)
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+
+// FLASH + LOCAL MIDDLEWARE (must come after passport setup)
+app.use(flash());
+app.use((req, res, next) => {
+  if (!["/login", "/"].includes(req.originalUrl)) {
+    if (req.originalUrl.includes("reviews")) {
+      req.session.returnTo = req.originalUrl.slice(0, -8);
+    } else {
+      req.session.returnTo = req.originalUrl;
+    }
+    console.log(req.session.returnTo);
+  }
+  res.locals.currentUser = req.user;
+  res.locals.success = req.flash("success");
+  res.locals.error = req.flash("error");
+  next();
+});
 
 // Mongoose connection to MongoDB
 main().catch((err) => console.log(err));
@@ -80,7 +91,7 @@ app.get("/", (req, res) => {
 // CAMPSITES and REVIEWS (link to routes)
 app.use("/", userRoutes);
 app.use("/campsites", campsiteRoutes);
-app.use("/campsites/:id/reviews", reviewRoutes);
+app.use("/campsites/details/:id/reviews", reviewRoutes);
 
 // Error handling!!! Page doesn't exist
 app.all("*", (req, res, next) => {
