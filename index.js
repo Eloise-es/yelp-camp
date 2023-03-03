@@ -63,7 +63,6 @@ app.use((req, res, next) => {
     } else {
       req.session.returnTo = req.originalUrl;
     }
-    console.log(req.session.returnTo);
   }
   res.locals.currentUser = req.user;
   res.locals.success = req.flash("success");
