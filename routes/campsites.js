@@ -19,7 +19,7 @@ router
   .get(catchAsync(campsites.index))
   .post(
     isLoggedIn,
-    upload.array("campsite[img]"),
+    upload.array("images"),
     validateCampsite,
     catchAsync(campsites.createNewCampsite)
   );
@@ -30,7 +30,12 @@ router
   .route("/:id")
   .get(catchAsync(campsites.showCampsite))
   .put(isAuthor, validateCampsite, catchAsync(campsites.editCampsite))
-  .delete(isLoggedIn, isAuthor, catchAsync(campsites.deleteCampsite));
+  .delete(isLoggedIn, isAuthor, catchAsync(campsites.deleteCampsite))
+  .patch(
+    isLoggedIn,
+    upload.array("images"),
+    catchAsync(campsites.uploadPhotos)
+  );
 
 router.get(
   "/:id/edit",
@@ -38,5 +43,7 @@ router.get(
   isAuthor,
   catchAsync(campsites.renderEditForm)
 );
+
+router.get("/:id/upload", isLoggedIn, catchAsync(campsites.renderUploadForm));
 
 module.exports = router;

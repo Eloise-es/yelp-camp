@@ -62,3 +62,25 @@ module.exports.deleteCampsite = async (req, res) => {
   req.flash("success", "Campsite successfuly deleted");
   res.redirect("/campsites");
 };
+
+module.exports.renderUploadForm = async (req, res) => {
+  const { id } = req.params;
+  const campsite = await Campsite.findById(id);
+  if (!campsite) {
+    req.flash("error", "Can't find that campsite!");
+    return res.redirect("/campsites");
+  }
+  res.render("campsites/upload", { campsite });
+};
+
+module.exports.uploadPhotos = async (req, res) => {
+  const { id } = req.params;
+  const camp = await Campsite.findById(id);
+  console.log(req.body);
+  console.log(req.files);
+  const imgs = req.files.map((f) => ({ url: f.path, filename: f.filename }));
+  camp.images.push(...imgs);
+  await camp.save();
+  req.flash("success", "Successfully uploaded, check your photo(s) out below!");
+  res.redirect(`/campsites/${id}`);
+};
