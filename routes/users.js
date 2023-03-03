@@ -7,27 +7,23 @@ const passport = require("passport");
 //Require the controller
 const users = require("../controllers/users");
 
-// C - Create new user - show form
-router.get("/register", users.renderRegisterForm);
+router
+  .route("/register")
+  .get(users.renderRegisterForm)
+  .post(users.registerNewUser);
 
-// C - Create new user - form submits to:
-router.post("/register", users.registerNewUser);
+router
+  .route("/login")
+  .get(users.renderLoginForm)
+  .post(
+    passport.authenticate("local", {
+      failureFlash: true,
+      failureRedirect: "/login",
+      keepSessionInfo: true,
+    }),
+    users.postLogin
+  );
 
-// Login form
-router.get("/login", users.renderLoginForm);
-
-// Login form submits to:
-router.post(
-  "/login",
-  passport.authenticate("local", {
-    failureFlash: true,
-    failureRedirect: "/login",
-    keepSessionInfo: true,
-  }),
-  users.postLogin
-);
-
-// Logout
 router.get("/logout", users.logout);
 
 module.exports = router;
