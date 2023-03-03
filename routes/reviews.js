@@ -10,6 +10,7 @@ const Review = require("../models/review");
 const {
   isLoggedIn,
   validateReview,
+  isReviewAuthor,
   calculateAverageRating,
 } = require("../middleware");
 
@@ -22,6 +23,7 @@ router.post(
     const camp = await Campsite.findById(req.params.id);
     console.log(camp);
     const review = new Review(req.body.review);
+    review.author = req.user.id;
     camp.reviews.push(review);
     await review.save();
     await camp.save();
@@ -34,6 +36,8 @@ router.post(
 // D - reviews delete request
 router.delete(
   "/:reviewId",
+  isLoggedIn,
+  isReviewAuthor,
   catchAsync(async (req, res) => {
     const { id, reviewId } = req.params;
     await Campsite.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });

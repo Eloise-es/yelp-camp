@@ -67,3 +67,12 @@ module.exports.calculateAverageRating = async (campId) => {
     });
   }
 };
+module.exports.isReviewAuthor = async (req, res, next) => {
+  const { id, reviewId } = req.params;
+  const review = await Review.findById(reviewId);
+  if (!review.author.equals(req.user.id)) {
+    req.flash("error", "You don't have permission to do that!");
+    return res.redirect(`/campsites/details/${id}`);
+  }
+  next();
+};
