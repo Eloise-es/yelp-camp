@@ -4,18 +4,16 @@
 
 <% for(let campsite of campsites.reverse()) {%>
 <div class="card mb-1">
-  <div class="row">
-    <div class="col-md-4">
-      <div class="ratio ratio-16x9">
-        <img
-          style="object-fit: cover"
-          src="<%= campsite.img %>"
-          alt="image of campsite"
-          class="img-fluid"
-        />
-      </div>
+  <div class="row g-0">
+    <div class="col-md-5 col-lg-4">
+      <img
+        style="object-fit: cover"
+        src="<%= campsite.img %>"
+        alt="image of campsite"
+        class="img-fluid rounded-start"
+      />
     </div>
-    <div class="col-md-8">
+    <div class="col-md-7 col-lg-8">
       <div class="card-body">
         <div class="d-flex flex-row justify-content-between">
           <h4 class="card-title me-2"><%= campsite.title %></h4>
