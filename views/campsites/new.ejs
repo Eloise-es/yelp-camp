@@ -2,7 +2,13 @@
 <div class="row">
   <h1 class="text-center">New Campsite</h1>
   <di class="col-6 offset-3">
-    <form action="/campsites" method="POST" class="validated-form" novalidate>
+    <form
+      action="/campsites"
+      method="POST"
+      class="validated-form"
+      enctype="multipart/form-data"
+      novalidate
+    >
       <div class="mb-3">
         <label for="title" class="form-label">Name</label>
         <input
@@ -32,17 +38,17 @@
       </div>
 
       <div class="mb-3">
-        <label for="image" class="form-label">Link to image</label>
+        <label for="image" class="form-label">Image</label>
         <input
-          type="text"
+          type="file"
           name="campsite[img]"
           id="img"
-          placeholder="e.g. https://images.unsplash.com/..."
           class="form-control"
           required
+          multiple
         />
         <div class="valid-feedback">Looks good!</div>
-        <div class="invalid-feedback">Please include a link to an image.</div>
+        <div class="invalid-feedback">Please upload an image.</div>
       </div>
       <div class="mb-3">
         <label for="description" class="form-label">Description</label>
