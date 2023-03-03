@@ -36,6 +36,7 @@
         </ul>
         <div class="card-body row justify-items-evenly">
           <a href="/campsites" class="btn btn-secondary col m-2 px-0">Back</a>
+          <% if (currentUser && campsite.author.equals(currentUser.id)) { %>
           <a
             class="btn btn-success col m-2 px-0"
             href="/campsites/edit/<%= campsite.id %>"
@@ -48,6 +49,7 @@
           >
             <button class="btn btn-danger col-12">Delete</button>
           </form>
+          <% } %>
         </div>
       </div>
     </div>
