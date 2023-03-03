@@ -9,45 +9,24 @@ const campsites = require("../controllers/campsites");
 // Middleware (functions) for these routes
 const { isLoggedIn, isAuthor, validateCampsite } = require("../middleware");
 
-// R - View all campsites index
-router.get("/", catchAsync(campsites.index));
+router
+  .route("/")
+  .get(catchAsync(campsites.index))
+  .post(isLoggedIn, validateCampsite, catchAsync(campsites.createNewCampsite));
 
-// R - Show details page for specific campsite
-router.get("/details/:id", catchAsync(campsites.showCampsite));
-
-// C - Render the form to add new campsite
 router.get("/new", isLoggedIn, campsites.renderNewForm);
 
-// C - Form post request to add new campsite
-router.post(
-  "/",
-  isLoggedIn,
-  validateCampsite,
-  catchAsync(campsites.createNewCampsite)
-);
+router
+  .route("/:id")
+  .get(catchAsync(campsites.showCampsite))
+  .put(isAuthor, validateCampsite, catchAsync(campsites.editCampsite))
+  .delete(isLoggedIn, isAuthor, catchAsync(campsites.deleteCampsite));
 
-// U - Edit page for form to be on
 router.get(
-  "/edit/:id",
+  "/:id/edit",
   isLoggedIn,
   isAuthor,
   catchAsync(campsites.renderEditForm)
-);
-
-// U - PUT request from form on edit page
-router.put(
-  "/:id",
-  isAuthor,
-  validateCampsite,
-  catchAsync(campsites.editCampsite)
-);
-
-// D - DELETE request for button on details page
-router.delete(
-  "/:id",
-  isLoggedIn,
-  isAuthor,
-  catchAsync(campsites.deleteCampsite)
 );
 
 module.exports = router;

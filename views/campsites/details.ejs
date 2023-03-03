@@ -1,16 +1,10 @@
 <% layout('layouts/boilerplate') %>
 
-<!-- New card version -->
 <div class="container">
   <div class="row justify-items-evenly">
+    <!-- Campsite details -->
     <div class="col-12 col-md-6">
       <div class="card mb-2">
-        <!-- <img
-          style="object-fit: cover; height: 15vw"
-          src="<%= campsite.img %>"
-          class="card-img-top"
-          alt="Image of <%= campsite.title %>"
-        /> -->
         <div class="ratio ratio-16x9">
           <img
             style="object-fit: cover"
@@ -39,7 +33,7 @@
           <% if (currentUser && campsite.author.equals(currentUser.id)) { %>
           <a
             class="btn btn-success col m-2 px-0"
-            href="/campsites/edit/<%= campsite.id %>"
+            href="/campsites/<%= campsite.id %>/edit"
             >Edit</a
           >
           <form
@@ -53,6 +47,7 @@
         </div>
       </div>
     </div>
+    <!-- Review form -->
     <div class="col-12 col-md-6">
       <div class="card text-bg-light mb-3">
         <h5 class="card-header">Leave a review</h5>
@@ -60,7 +55,7 @@
         <div class="card-body">
           <form
             class="validated-form"
-            action="/campsites/details/<%= campsite.id %>/reviews"
+            action="/campsites/<%= campsite.id %>/reviews"
             method="POST"
             novalidate
           >
@@ -106,6 +101,7 @@
         </div>
         <% } %>
       </div>
+      <!-- List of reviews -->
       <div class="card mb-2 text-bg-light">
         <% if (campsite.numberOfRatings) { %>
         <h5 class="card-header">Reviews of <%= campsite.title %></h5>
@@ -131,7 +127,7 @@
             <% if (currentUser && review.author.equals(currentUser.id)) { %>
             <form
               class="d-grid gap-2 d-flex justify-content-end"
-              action="/campsites/details/<%= campsite.id %>/reviews/<%= review.id %>?_method=DELETE"
+              action="/campsites/<%= campsite.id %>/reviews/<%= review.id %>?_method=DELETE"
               method="POST"
             >
               <button class="btn btn-danger btn-sm">Delete</button>

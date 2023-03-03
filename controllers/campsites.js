@@ -34,7 +34,7 @@ module.exports.createNewCampsite = async (req, res) => {
   camp.author = req.user.id;
   await camp.save();
   req.flash("success", "Successfully made a new campsite!");
-  res.redirect(`campsites/details/${camp.id}`);
+  res.redirect(`campsites/${camp.id}`);
 };
 
 module.exports.renderEditForm = async (req, res) => {
@@ -53,7 +53,7 @@ module.exports.editCampsite = async (req, res) => {
     ...req.body.campsite,
   });
   req.flash("success", "Successfully updated campsite!");
-  res.redirect(`/campsites/details/${id}`);
+  res.redirect(`/campsites/${id}`);
 };
 
 module.exports.deleteCampsite = async (req, res) => {

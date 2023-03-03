@@ -13,7 +13,7 @@ module.exports.createNewReview = async (req, res) => {
   await camp.save();
   calculateAverageRating(req.params.id);
   req.flash("success", "Your review has been posted!");
-  res.redirect(`/campsites/details/${camp.id}`);
+  res.redirect(`/campsites/${camp.id}`);
 };
 
 module.exports.deleteReview = async (req, res) => {
@@ -22,5 +22,5 @@ module.exports.deleteReview = async (req, res) => {
   await Review.findByIdAndDelete(reviewId);
   calculateAverageRating(id);
   req.flash("success", "Review successfully deleted!");
-  res.redirect(`/campsites/details/${id}`);
+  res.redirect(`/campsites/${id}`);
 };

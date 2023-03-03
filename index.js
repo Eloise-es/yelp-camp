@@ -90,7 +90,7 @@ app.get("/", (req, res) => {
 // CAMPSITES and REVIEWS (link to routes)
 app.use("/", userRoutes);
 app.use("/campsites", campsiteRoutes);
-app.use("/campsites/details/:id/reviews", reviewRoutes);
+app.use("/campsites/:id/reviews", reviewRoutes);
 
 // Error handling!!! Page doesn't exist
 app.all("*", (req, res, next) => {
