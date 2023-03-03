@@ -2,24 +2,12 @@
 const express = require("express");
 const router = express.Router();
 const catchAsync = require("../utils/catchAsync");
-const ExpressError = require("../utils/ExpressError");
 
-//Require the model and schema
+//Require the model
 const Campsite = require("../models/campsite");
-const { campsiteSchema } = require("../schemas.js");
 
-// Middleware/functions for these routes
-const { isLoggedIn } = require("../middleware");
-const campsite = require("../models/campsite");
-const validateCampsite = (req, res, next) => {
-  const { error } = campsiteSchema.validate(req.body);
-  if (error) {
-    const msg = error.details.map((el) => el.message).join(",");
-    throw new ExpressError(msg, 400);
-  } else {
-    next();
-  }
-};
+// Middleware (functions) for these routes
+const { isLoggedIn, isAuthor, validateCampsite } = require("../middleware");
 
 // R - View all campsites index
 router.get(
@@ -71,8 +59,14 @@ router.post(
 router.get(
   "/edit/:id",
   isLoggedIn,
+  isAuthor,
   catchAsync(async (req, res) => {
-    const campsite = await Campsite.findById(req.params.id);
+    const { id } = req.params;
+    const campsite = await Campsite.findById(id);
+    if (!campsite) {
+      req.flash("error", "Can't find that campsite!");
+      return res.redirect("/campsites");
+    }
     res.render("campsites/edit", { campsite });
   })
 );
@@ -80,14 +74,15 @@ router.get(
 // U - PUT request from form on edit page
 router.put(
   "/:id",
-  isLoggedIn,
+  isAuthor,
   validateCampsite,
   catchAsync(async (req, res) => {
-    const campsite = await Campsite.findByIdAndUpdate(req.params.id, {
+    const { id } = req.params;
+    await Campsite.findByIdAndUpdate(id, {
       ...req.body.campsite,
     });
     req.flash("success", "Successfully updated campsite!");
-    res.redirect(`/campsites/details/${campsite.id}`);
+    res.redirect(`/campsites/details/${id}`);
   })
 );
 
@@ -95,6 +90,7 @@ router.put(
 router.delete(
   "/:id",
   isLoggedIn,
+  isAuthor,
   catchAsync(async (req, res) => {
     await Campsite.findByIdAndDelete(req.params.id);
     req.flash("success", "Campsite successfuly deleted");

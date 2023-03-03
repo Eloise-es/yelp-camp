@@ -1,46 +1,17 @@
 const express = require("express");
 const router = express.Router({ mergeParams: true });
 const catchAsync = require("../utils/catchAsync");
-const ExpressError = require("../utils/ExpressError");
 
-//Require the model and schema
+//Require the models
 const Campsite = require("../models/campsite");
 const Review = require("../models/review");
-const { reviewSchema } = require("../schemas.js");
 
 // Middleware and functions related to this route
-const { isLoggedIn } = require("../middleware");
-const validateReview = (req, res, next) => {
-  const { error } = reviewSchema.validate(req.body);
-  if (error) {
-    const msg = error.details.map((el) => el.message).join(",");
-    throw new ExpressError(msg, 400);
-  } else {
-    next();
-  }
-};
-
-const calculateAverageRating = async (campId) => {
-  const camp = await Campsite.findById(campId).populate("reviews");
-  const allRatings = [];
-  for (let review of camp.reviews) {
-    allRatings.push(review.rating);
-  }
-  if (!allRatings.length) {
-    await Campsite.findByIdAndUpdate(campId, {
-      averageRating: undefined,
-      numberOfRatings: undefined,
-    });
-  } else {
-    const sum = allRatings.reduce((a, b) => a + b, 0);
-    const average = sum / allRatings.length;
-    console.log("all: ", allRatings, "sum: ", sum, "Avg: ", average);
-    await Campsite.findByIdAndUpdate(campId, {
-      averageRating: average,
-      numberOfRatings: allRatings.length,
-    });
-  }
-};
+const {
+  isLoggedIn,
+  validateReview,
+  calculateAverageRating,
+} = require("../middleware");
 
 // C - Reviews form post request
 router.post(
