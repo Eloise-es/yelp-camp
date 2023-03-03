@@ -31,6 +31,7 @@ module.exports.renderNewForm = (req, res) => {
 
 module.exports.createNewCampsite = async (req, res) => {
   const camp = new Campsite(req.body.campsite);
+  camp.images = req.files.map((f) => ({ url: f.path, filename: f.filename }));
   camp.author = req.user.id;
   await camp.save();
   req.flash("success", "Successfully made a new campsite!");

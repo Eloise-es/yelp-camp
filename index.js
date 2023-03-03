@@ -1,3 +1,8 @@
+// Get access to ENV variables
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
+
 // Require the modules
 const express = require("express");
 const app = express();
