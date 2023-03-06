@@ -49,10 +49,12 @@ const seedDB = async () => {
       {
         url: img1,
         filename: `image ${i + 32}`,
+        uploadedBy: "Eloise",
       },
       {
         url: img2,
         filename: `randomimage`,
+        uploadedBy: "Eloise",
       },
     ];
     const camp = new Campsite({

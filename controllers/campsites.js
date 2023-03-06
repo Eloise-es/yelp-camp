@@ -31,7 +31,11 @@ module.exports.renderNewForm = (req, res) => {
 
 module.exports.createNewCampsite = async (req, res) => {
   const camp = new Campsite(req.body.campsite);
-  camp.images = req.files.map((f) => ({ url: f.path, filename: f.filename }));
+  camp.images = req.files.map((f) => ({
+    url: f.path,
+    filename: f.filename,
+    uploadedBy: req.user.username,
+  }));
   camp.author = req.user.id;
   await camp.save();
   req.flash("success", "Successfully made a new campsite!");
@@ -50,9 +54,15 @@ module.exports.renderEditForm = async (req, res) => {
 
 module.exports.editCampsite = async (req, res) => {
   const { id } = req.params;
-  await Campsite.findByIdAndUpdate(id, {
-    ...req.body.campsite,
-  });
+  const camp = await Campsite.findByIdAndUpdate(id, { ...req.body.campsite });
+  const imgs = req.files.map((f) => ({
+    url: f.path,
+    filename: f.filename,
+    uploadedBy: req.user.username,
+  }));
+  console.log(req.user);
+  camp.images.push(...imgs);
+  await camp.save();
   req.flash("success", "Successfully updated campsite!");
   res.redirect(`/campsites/${id}`);
 };
@@ -78,7 +88,11 @@ module.exports.uploadPhotos = async (req, res) => {
   const camp = await Campsite.findById(id);
   console.log(req.body);
   console.log(req.files);
-  const imgs = req.files.map((f) => ({ url: f.path, filename: f.filename }));
+  const imgs = req.files.map((f) => ({
+    url: f.path,
+    filename: f.filename,
+    uploadedBy: req.user.username,
+  }));
   camp.images.push(...imgs);
   await camp.save();
   req.flash("success", "Successfully uploaded, check your photo(s) out below!");
