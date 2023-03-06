@@ -13,7 +13,9 @@ function previewMultiple(event) {
   }
 }
 // Listens for a change on file input and if there is a change, calls preview function
-document.querySelector("#imgUpload").addEventListener("change", (ev) => {
-  if (!ev.target.files) return; // Do nothing.
-  previewMultiple(ev);
-});
+if (document.querySelector("#imgUpload")) {
+  document.querySelector("#imgUpload").addEventListener("change", (ev) => {
+    if (!ev.target.files) return; // Do nothing.
+    previewMultiple(ev);
+  });
+}
