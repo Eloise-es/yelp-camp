@@ -10,18 +10,19 @@
       enctype="multipart/form-data"
     >
       <div class="my-5">
-        <label for="images" class="form-label"
+        <label for="image" class="form-label"
           >Choose image files from your computer, and then click 'upload' when
           you're ready.</label
         >
         <input
           type="file"
           name="images"
-          id="images"
+          id="imgUpload"
           class="form-control"
           required
           multiple
         />
+        <div id="imgPreview" class="d-flex row justify-content-start"></div>
         <div class="valid-feedback">Looks good!</div>
         <div class="invalid-feedback">Please upload an image.</div>
       </div>

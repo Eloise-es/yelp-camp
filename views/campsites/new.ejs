@@ -1,7 +1,8 @@
 <% layout('layouts/boilerplate') %>
+<!-- <link rel="stylesheet" href="../css/imagepreviews.css" /> -->
 <div class="row">
   <h1 class="text-center">New Campsite</h1>
-  <di class="col-6 offset-3">
+  <div class="col-11 col-md-6 offset-md-3">
     <form
       action="/campsites"
       method="POST"
@@ -42,11 +43,12 @@
         <input
           type="file"
           name="images"
-          id="img"
+          id="imgUpload"
           class="form-control"
           required
           multiple
         />
+        <div id="imgPreview" class="d-flex row justify-content-start"></div>
         <div class="valid-feedback">Looks good!</div>
         <div class="invalid-feedback">Please upload an image.</div>
       </div>
@@ -83,5 +85,5 @@
       <div class="mb-3"><button class="btn btn-success">Submit</button></div>
     </form>
     <a href="/campsites">View all campsites</a>
-  </di>
+  </div>
 </div>

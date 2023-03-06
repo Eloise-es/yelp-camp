@@ -5,6 +5,7 @@
     <form
       action="/campsites/<%= campsite.id %>?_method=PUT"
       method="POST"
+      enctype="multipart/form-data"
       novalidate
       class="validated-form"
     >
@@ -66,6 +67,17 @@
           <div class="valid-feedback">Looks good!</div>
           <div class="invalid-feedback">Please include a valid price.</div>
         </div>
+      </div>
+      <div class="mb-3">
+        <label for="image" class="form-label">Add more images</label>
+        <input
+          type="file"
+          name="images"
+          id="imgUpload"
+          class="form-control"
+          multiple
+        />
+        <div id="imgPreview" class="d-flex row justify-content-start"></div>
       </div>
       <div class="mb-3 row">
         <a class="btn btn-danger mx-3 col" href="/campsites/<%= campsite.id %> "
