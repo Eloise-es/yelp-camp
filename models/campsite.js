@@ -9,13 +9,21 @@ const ImageSchema = new Schema({
   filename: String,
   uploadedBy: String,
 });
+
+ImageSchema.virtual("thumbnail").get(function () {
+  return this.url.replace("/upload", "/upload/w_200");
+});
+ImageSchema.virtual("card").get(function () {
+  return this.url.replace("/upload", "/upload/ar_4:3,c_crop");
+});
+
 // Save review IDs to an array, with ref 'Review' meaning review schema
 const campsiteSchema = new Schema({
   title: String,
   price: Number,
   description: String,
   location: String,
-  images: [],
+  images: [ImageSchema],
   author: {
     type: Schema.Types.ObjectId,
     ref: "User",
