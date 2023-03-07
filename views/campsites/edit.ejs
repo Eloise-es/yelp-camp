@@ -79,6 +79,28 @@
         />
         <div id="imgPreview" class="d-flex row justify-content-start"></div>
       </div>
+      <div class="mb-3">
+        <label for="currentImages">Current images</label>
+        <div class="row">
+          <% campsite.images.forEach(function(img, i) { %>
+          <div class="col-4">
+            <img src="<%= img.thumbnail %>" class="img-thumbnail" />
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                value="<%= img.filename %>"
+                id="image-<%= i %>"
+                name="deleteImages[]"
+              />
+              <label class="form-check-label" for="image-<%= i %>">
+                Delete this image
+              </label>
+            </div>
+          </div>
+          <% }); %>
+        </div>
+      </div>
       <div class="mb-3 row">
         <a class="btn btn-danger mx-3 col" href="/campsites/<%= campsite.id %> "
           >Cancel</a

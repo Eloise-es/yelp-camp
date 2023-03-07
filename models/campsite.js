@@ -4,6 +4,11 @@ const Schema = mongoose.Schema;
 // Require review model
 const Review = require("./review");
 
+const ImageSchema = new Schema({
+  url: String,
+  filename: String,
+  uploadedBy: String,
+});
 // Save review IDs to an array, with ref 'Review' meaning review schema
 const campsiteSchema = new Schema({
   title: String,
