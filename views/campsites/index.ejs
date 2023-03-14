@@ -6,12 +6,15 @@
 <div class="card mb-1">
   <div class="row g-0">
     <div class="col-md-5 col-lg-4">
+      <% if (campsite.images.length) { %>
       <img
-        style="object-fit: cover"
-        src="<%=campsite.images[0].url%>"
+        src="<%=campsite.images[0].card%>"
         alt="image of campsite"
         class="img-fluid rounded-start"
       />
+      <% } else { %>
+      <img src="" alt="no image" class="img-fluid rounded-start" />
+      <% } %>
     </div>
     <div class="col-md-7 col-lg-8">
       <div class="card-body">

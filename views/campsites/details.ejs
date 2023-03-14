@@ -14,7 +14,7 @@
           <div class="carousel-inner">
             <% campsite.images.forEach((img, i) => {%>
             <div class="carousel-item <%= i === 0 ? "active" : "" %>">
-              <img src="<%= img.url %>" class="d-block w-100" alt="" />
+              <img src="<%= img.card %>" class="d-block w-100" alt="" />
               <div class="carousel-caption d-none d-md-block p-0">
         <p class="mb-0"><small>Photo added by <%= img.uploadedBy %></small></p>
       </div>
@@ -83,6 +83,10 @@
     </div>
     <!-- Review form -->
     <div class="col-12 col-md-6">
+      <div class="card text-bg-light mb-3">
+        <h5 class="card-header">Location</h5>
+        <div id='map' style='width: 500px; height: 300px;'></div>
+      </div>
       <div class="card text-bg-light mb-3">
         <h5 class="card-header">Leave a review</h5>
         <% if(currentUser) { %>
@@ -220,3 +224,10 @@
     </div>
   </div>
 </div>
+
+<script>
+  const mapToken = "<%-process.env.MAPBOX_TOKEN%>";
+  const campsite = <%-JSON.stringify(campsite)%>
+</script>
+
+<script src="/js/showMap.js"></script>
