@@ -1,8 +1,67 @@
-<% layout('layouts/boilerplate') %>
-<body>
-  <h1>Yelp Camp</h1>
-  <ul>
-    <li><a href="/campsites">View all</a></li>
-    <li><a href="/campsites/new">Add new campsite</a></li>
-  </ul>
-</body>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Yelp Camp</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+      crossorigin="anonymous"
+    />
+    <link rel="icon" type="image/ico" href="/images/favicon.ico" />
+    <link rel="stylesheet" href="css/home.css" />
+  </head>
+  <body
+    class="d-flex flex-column vh-100 mt-auto text-center text-white bg-dark"
+  >
+    <main class="home-container d-flex w-100 h-100 mx-auto p-3 flex-column">
+      <nav class="navbar sticky-top navbar-expand-sm navbar-dark">
+        <div class="nav-div container-fluid">
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <div class="navbar-nav">
+              <a class="navbar-brand" href="/">Yelp Camp</a>
+            </div>
+            <div class="navbar-nav d-flex ms-auto">
+              <a class="nav-link active" aria-current="page" href="/">Home</a>
+              <a class="nav-link" href="/campsites">Campsites</a>
+              <% if (!currentUser) { %>
+              <a class="nav-link" href="/register">Register</a>
+              <a class="nav-link" href="/login">Log in</a>
+              <% } else { %>
+              <a class="nav-link" href="/logout">Log out</a>
+              <% } %>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <%- include('./partials/flash') %>
+      <section class="my-auto mt-5">
+        <h1 class="display-1">Yelp Camp</h1>
+        <p class="lead">
+          Welcome to Yelp Camp, where you can find the best campsites.
+        </p>
+        <a class="btn btn-light" href="/campsites">Check out our campsites</a>
+      </section>
+    </main>
+    <%- include('./partials/footer') %>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
