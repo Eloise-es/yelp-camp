@@ -40,7 +40,7 @@ const renderImage = async (randomNumber) => {
 // This will delete everything in the database, then replace it with 50 new campsites
 const seedDB = async () => {
   await Campsite.deleteMany({});
-  for (let i = 0; i < 50; i++) {
+  for (let i = 0; i < 300; i++) {
     const random1000 = Math.floor(Math.random() * 1000);
     const price = Math.floor(Math.random() * 50);
     const img1 = await renderImage(i + 32);
@@ -60,7 +60,13 @@ const seedDB = async () => {
     const camp = new Campsite({
       title: `${sample(descriptors)} ${sample(places)}`,
       location: `${cities[random1000].city}, ${cities[random1000].state}`,
-      geometry: { type: "Point", coordinates: [4.311346, 52.079984] },
+      geometry: {
+        type: "Point",
+        coordinates: [
+          cities[random1000].longitude,
+          cities[random1000].latitude,
+        ],
+      },
       images: images,
       author: "640099d63b8d374ad71d94e4",
       description:

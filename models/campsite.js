@@ -3,6 +3,8 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 // Require review model
 const Review = require("./review");
+// Make virtuals available in JSON
+const opts = { toJSON: { virtuals: true } };
 
 const ImageSchema = new Schema({
   url: String,
@@ -18,35 +20,49 @@ ImageSchema.virtual("card").get(function () {
 });
 
 // Save review IDs to an array, with ref 'Review' meaning review schema
-const campsiteSchema = new Schema({
-  title: String,
-  price: Number,
-  description: String,
-  location: String,
-  geometry: {
-    type: {
-      type: String,
-      enum: ["Point"],
-      required: true,
+const campsiteSchema = new Schema(
+  {
+    title: String,
+    price: Number,
+    description: String,
+    location: String,
+    geometry: {
+      type: {
+        type: String,
+        enum: ["Point"],
+        required: true,
+      },
+      coordinates: {
+        type: [Number],
+        required: true,
+      },
     },
-    coordinates: {
-      type: [Number],
-      required: true,
-    },
-  },
-  images: [ImageSchema],
-  author: {
-    type: Schema.Types.ObjectId,
-    ref: "User",
-  },
-  reviews: [
-    {
+    images: [ImageSchema],
+    author: {
       type: Schema.Types.ObjectId,
-      ref: "Review",
+      ref: "User",
     },
-  ],
-  averageRating: Number,
-  numberOfRatings: Number,
+    reviews: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Review",
+      },
+    ],
+    averageRating: Number,
+    numberOfRatings: Number,
+  },
+  opts
+);
+
+campsiteSchema.virtual("properties.popUpHTML").get(function () {
+  return `<h5>${this.title}</h5>
+  <ul>
+  <li>${this.location}</li>
+  <li>£${this.price} per night </li>
+  </ul>
+  <a class="btn btn-sm btn-light" href="/campsites/${this.id}">See more</a>
+  `;
+  // <h4> ${title}</h4><p>Price per night: ${price}</p>
 });
 
 campsiteSchema.post("findOneAndDelete", async function (doc) {
