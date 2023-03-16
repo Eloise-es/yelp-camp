@@ -1,39 +1,50 @@
 <% layout('layouts/boilerplate') %>
-<div class="row">
-  <h1 class="text-center">Upload photos of <%= campsite.title %></h1>
-  <div class="col-6 offset-3">
-    <form
-      action="/campsites/<%= campsite.id %>?_method=PATCH"
-      method="POST"
-      novalidate
-      class="validated-form"
-      enctype="multipart/form-data"
-    >
-      <div class="my-5">
-        <label for="image" class="form-label"
-          >Choose image files from your computer, and then click 'upload' when
-          you're ready.</label
-        >
-        <input
-          type="file"
-          name="images"
-          id="imgUpload"
-          class="form-control"
-          required
-          multiple
-        />
-        <div id="imgPreview" class="d-flex row justify-content-start"></div>
-        <div class="valid-feedback">Looks good!</div>
-        <div class="invalid-feedback">Please upload an image.</div>
+<div class="container my-4 d-flex justify-content-center align-items-center">
+  <div class="col-11 col-md-8">
+    <div class="card shadow">
+      <div class="card-body">
+        <h2 class="card-title text-center">
+          Upload photos of <%= campsite.title %>
+        </h2>
+        <div class="card-text">
+          <form
+            action="/campsites/<%= campsite.id %>?_method=PATCH"
+            method="POST"
+            novalidate
+            class="validated-form"
+            enctype="multipart/form-data"
+          >
+            <div class="my-5">
+              <label for="image" class="form-label"
+                >Choose image files from your computer, and then click 'upload'
+                when you're ready.</label
+              >
+              <input
+                type="file"
+                name="images"
+                id="imgUpload"
+                class="form-control"
+                required
+                multiple
+              />
+              <div
+                id="imgPreview"
+                class="d-flex row justify-content-start"
+              ></div>
+              <div class="valid-feedback">Looks good!</div>
+              <div class="invalid-feedback">Please upload an image.</div>
+            </div>
+            <div class="mb-3 row justify-content-between">
+              <a
+                class="btn btn-danger ms-2 me-1 col"
+                href="/campsites/<%= campsite.id %> "
+                >Cancel</a
+              >
+              <button class="btn btn-success me-2 ms-1 col">Upload</button>
+            </div>
+          </form>
+        </div>
       </div>
-      <div class="mb-3 row">
-        <a class="btn btn-danger mx-3 col" href="/campsites/<%= campsite.id %> "
-          >Cancel</a
-        >
-        <button class="btn btn-success col align-self-end">Upload</button>
-      </div>
-    </form>
-
-    <a href="/campsites">View all campsites</a>
+    </div>
   </div>
 </div>
