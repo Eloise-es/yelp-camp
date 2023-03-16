@@ -6,10 +6,12 @@ const map = new mapboxgl.Map({
   zoom: 9, // starting zoom
 });
 
+map.addControl(new mapboxgl.NavigationControl());
+
 new mapboxgl.Marker()
   .setLngLat(campsite.geometry.coordinates)
   .setPopup(
-    new mapboxgl.Popup({ offset: 25 }).setHTML(`<h3>${campsite.title}</h3>`)
+    new mapboxgl.Popup({ offset: 25 }).setHTML(`<h5>${campsite.title}</h5>`)
   )
   .addTo(map);
 console.log(campsite);
