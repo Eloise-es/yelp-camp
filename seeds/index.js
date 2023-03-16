@@ -19,12 +19,6 @@ async function main() {
 // Define size of sample
 const sample = (array) => array[Math.floor(Math.random() * array.length)];
 
-// Image generator
-// const collectionID = 9046579; // the collection ID from the Unsplash url
-// function renderImage(randomNumber) {
-//   return `https://source.unsplash.com/collection/${collectionID}/480x400/?sig=${randomNumber}`;
-// }
-
 // New img generator
 const renderImage = async (randomNumber) => {
   try {
