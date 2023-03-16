@@ -1,7 +1,11 @@
 // Get access to ENV variables
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
+  const dbUrl = "mongodb://127.0.0.1:27017/yelp-camp";
+} else {
+  const dbUrl = process.env.DB_URL;
 }
+const PORT = process.env.PORT || 3000;
 
 // Require the modules
 const express = require("express");
@@ -19,10 +23,6 @@ const LocalStrategy = require("passport-local");
 const mongoSanitize = require("express-mongo-sanitize");
 const helmet = require("helmet");
 const ExpressError = require("./utils/ExpressError");
-
-// ENV VARIABLES
-const PORT = process.env.PORT || 3000;
-const dbUrl = process.env.DB_URL; // || "mongodb://127.0.0.1:27017/yelp-camp";
 
 // Require the routes
 const userRoutes = require("./routes/users");
