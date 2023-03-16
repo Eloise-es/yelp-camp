@@ -1,9 +1,8 @@
 // Get access to ENV variables
+let dbUrl = process.env.DB_URL;
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
-  const dbUrl = "mongodb://127.0.0.1:27017/yelp-camp";
-} else {
-  const dbUrl = process.env.DB_URL;
+  dbUrl = "mongodb://127.0.0.1:27017/yelp-camp";
 }
 const PORT = process.env.PORT || 3000;
 
