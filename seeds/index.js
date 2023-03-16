@@ -6,7 +6,7 @@ const axios = require("axios");
 //Require the model AND SEED DATA
 const Campsite = require("../models/campsite");
 const cities = require("./cities");
-const { places, descriptors } = require("./seedHelpers");
+const { places, descriptors, descriptions } = require("./seedHelpers");
 
 // Mongoose connection to MongoDB
 main().catch((err) => console.log(err));
@@ -42,6 +42,7 @@ const seedDB = async () => {
   await Campsite.deleteMany({});
   for (let i = 0; i < 300; i++) {
     const random1000 = Math.floor(Math.random() * 1000);
+    const random40 = Math.floor(Math.random() * 40);
     const price = Math.floor(Math.random() * 50);
     const img1 = await renderImage(i + 32);
     const img2 = await renderImage(32 + Math.floor(Math.random() * 90));
@@ -69,8 +70,7 @@ const seedDB = async () => {
       },
       images: images,
       author: "640099d63b8d374ad71d94e4",
-      description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt enim nostrum minus provident error, dolorum doloribus necessitatibus ab itaque quaerat corporis mollitia aspernatur cupiditate modi eos porro? Voluptatem, itaque neque!",
+      description: descriptions[random40],
       price,
     });
     await camp.save();
