@@ -1,89 +1,110 @@
 <% layout('layouts/boilerplate') %>
-<!-- <link rel="stylesheet" href="../css/imagepreviews.css" /> -->
-<div class="row">
-  <h1 class="text-center">New Campsite</h1>
-  <div class="col-11 col-md-6 offset-md-3">
-    <form
-      action="/campsites"
-      method="POST"
-      class="validated-form"
-      enctype="multipart/form-data"
-      novalidate
-    >
-      <div class="mb-3">
-        <label for="title" class="form-label">Name</label>
-        <input
-          type="text"
-          name="campsite[title]"
-          placeholder="e.g. Peak View Caravan Park"
-          id="title"
-          class="form-control"
-          required
-        />
-        <div class="valid-feedback">Looks good!</div>
-        <div class="invalid-feedback">Please include the campsite name.</div>
-      </div>
+<div class="container my-5 d-flex justify-content-center align-items-center">
+  <div class="col-11 col-md-8">
+    <div class="card shadow">
+      <div class="card-body">
+        <h2 class="card-title text-center">New Campsite</h2>
+        <div class="card-text">
+          <form
+            action="/campsites"
+            method="POST"
+            class="validated-form"
+            enctype="multipart/form-data"
+            novalidate
+          >
+            <div class="mb-3">
+              <label for="title" class="form-label">Name</label>
+              <input
+                type="text"
+                name="campsite[title]"
+                placeholder="e.g. Peak View Caravan Park"
+                id="title"
+                class="form-control"
+                required
+                autofocus
+              />
+              <div class="valid-feedback">Looks good!</div>
+              <div class="invalid-feedback">
+                Please include the campsite name.
+              </div>
+            </div>
 
-      <div class="mb-3">
-        <label for="location" class="form-label">Location</label>
-        <input
-          type="text"
-          name="campsite[location]"
-          placeholder="e.g. Castleton, UK"
-          id="location"
-          class="form-control"
-          required
-        />
-        <div class="valid-feedback">Looks good!</div>
-        <div class="invalid-feedback">Please include the location.</div>
-      </div>
+            <div class="mb-3">
+              <label for="location" class="form-label">Location</label>
+              <input
+                type="text"
+                name="campsite[location]"
+                placeholder="e.g. Castleton, UK"
+                id="location"
+                class="form-control"
+                required
+              />
+              <div class="valid-feedback">Looks good!</div>
+              <div class="invalid-feedback">Please include the location.</div>
+            </div>
 
-      <div class="mb-3">
-        <label for="image" class="form-label">Image</label>
-        <input
-          type="file"
-          name="images"
-          id="imgUpload"
-          class="form-control"
-          required
-          multiple
-        />
-        <div id="imgPreview" class="d-flex row justify-content-start"></div>
-        <div class="valid-feedback">Looks good!</div>
-        <div class="invalid-feedback">Please upload an image.</div>
-      </div>
-      <div class="mb-3">
-        <label for="description" class="form-label">Description</label>
-        <textarea
-          type="text"
-          name="campsite[description]"
-          id="description"
-          placeholder="e.g. The perfect romantic getaway in the mountains, with clean bathrooms and a range of facilities, including..."
-          class="form-control"
-          required
-        ></textarea>
-        <div class="valid-feedback">Looks good!</div>
-        <div class="invalid-feedback">Please include a short description.</div>
-      </div>
-      <div class="mb-3">
-        <label for="price" class="form-label">Price per night</label>
-        <div class="input-group">
-          <span class="input-group-text">£</span>
-          <input
-            type="text"
-            class="form-control"
-            id="price"
-            placeholder="0.00"
-            name="campsite[price]"
-            aria-label="Amount (to the nearest pound)"
-            required
-          />
-          <div class="valid-feedback">Looks good!</div>
-          <div class="invalid-feedback">Please include a valid price.</div>
+            <div class="mb-3">
+              <label for="image" class="form-label">Image</label>
+              <input
+                type="file"
+                name="images"
+                id="imgUpload"
+                class="form-control"
+                required
+                multiple
+              />
+              <div
+                id="imgPreview"
+                class="d-flex row justify-content-start"
+              ></div>
+              <div class="valid-feedback">Looks good!</div>
+              <div class="invalid-feedback">Please upload an image.</div>
+            </div>
+            <div class="mb-3">
+              <label for="description" class="form-label">Description</label>
+              <textarea
+                type="text"
+                name="campsite[description]"
+                id="description"
+                placeholder="e.g. The perfect romantic getaway in the mountains, with clean bathrooms and a range of facilities, including..."
+                class="form-control"
+                required
+              ></textarea>
+              <div class="valid-feedback">Looks good!</div>
+              <div class="invalid-feedback">
+                Please include a short description.
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="price" class="form-label">Price per night</label>
+              <div class="input-group">
+                <span class="input-group-text">£</span>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="price"
+                  placeholder="0.00"
+                  name="campsite[price]"
+                  aria-label="Amount (to the nearest pound)"
+                  required
+                />
+                <div class="valid-feedback">Looks good!</div>
+                <div class="invalid-feedback">
+                  Please include a valid price.
+                </div>
+              </div>
+            </div>
+            <div class="row justify-content-evenly">
+              <button class="btn btn-success col-11 col-md-6">Submit</button>
+              <a
+                class="btn btn-outline-secondary mt-2 mt-md-0 col-11 col-md-5"
+                href="/campsites"
+                >Back to all campsites</a
+              >
+            </div>
+          </form>
         </div>
       </div>
-      <div class="mb-3"><button class="btn btn-success">Submit</button></div>
-    </form>
-    <a href="/campsites">View all campsites</a>
+    </div>
   </div>
 </div>

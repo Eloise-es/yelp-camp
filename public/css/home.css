@@ -20,6 +20,7 @@ body {
 .home-container {
   max-width: 90vw;
 }
-.btn-light {
+.btn-light,
+.alert {
   text-shadow: none;
 }

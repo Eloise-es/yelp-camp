@@ -12,17 +12,16 @@
       crossorigin="anonymous"
     />
     <link rel="icon" type="image/ico" href="/images/favicon.ico" />
+    <link rel="stylesheet" href="/css/app.css" />
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.js"></script>
     <link
       href="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.css"
       rel="stylesheet"
     />
   </head>
-  <body class="d-flex flex-column vh-100 mt-auto">
+  <body class="d-flex flex-column vh-100 mt-auto bg-dark">
     <%- include('../partials/navbar') %>
-    <main class="container m-3">
-      <%- include('../partials/flash') %> <%- body %>
-    </main>
+    <main><%- include('../partials/flash') %> <%- body %></main>
     <%- include('../partials/footer') %>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
@@ -31,5 +30,6 @@
     ></script>
     <script src="/js/validateForms.js"></script>
     <script src="/js/addFileNames.js"></script>
+    <script src="/js/setActivePage.js"></script>
   </body>
 </html>
