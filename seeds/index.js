@@ -2,6 +2,7 @@
 const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
 const axios = require("axios");
+const dbUrl = process.env.DB_URL;
 
 //Require the model AND SEED DATA
 const Campsite = require("../models/campsite");
@@ -11,7 +12,7 @@ const { places, descriptors, descriptions } = require("./seedHelpers");
 // Mongoose connection to MongoDB
 main().catch((err) => console.log(err));
 async function main() {
-  await mongoose.connect("mongodb://127.0.0.1:27017/yelp-camp");
+  await mongoose.connect(dbUrl);
   console.log("mongo connection open");
 }
 
@@ -75,7 +76,7 @@ const seedDB = async () => {
     });
     await camp.save();
   }
-  console.log("Created 50 campsites");
+  console.log("Created the campsites");
 };
 
 seedDB().then(() => {
