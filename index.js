@@ -104,7 +104,7 @@ app.use(
 // SESSIONS SETUP (using mongo store)
 const sessionConfig = {
   name: "session", // don't use the default name (too easy to hack)
-  secret: "thisshouldbeabettersecret!!!",
+  secret: process.env.SECRET,
   resave: false,
   saveUninitialized: true,
   cookie: {
