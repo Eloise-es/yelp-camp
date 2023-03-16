@@ -15,6 +15,8 @@ const session = require("express-session");
 const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
+const mongoSanitize = require("express-mongo-sanitize");
+const helmet = require("helmet");
 
 const ExpressError = require("./utils/ExpressError");
 const PORT = process.env.PORT || 3000;
@@ -39,13 +41,72 @@ app.use(express.static("public"));
 // OTHER MODULES
 app.use(methodOverride("_method"));
 app.use(morgan("dev"));
+// SECURITY
+const scriptSrcUrls = [
+  "https://stackpath.bootstrapcdn.com/",
+  "https://api.tiles.mapbox.com/",
+  "https://api.mapbox.com/",
+  "https://kit.fontawesome.com/",
+  "https://cdnjs.cloudflare.com/",
+  "https://cdn.jsdelivr.net/",
+  "https://res.cloudinary.com/dzqkr91yz/",
+];
+const styleSrcUrls = [
+  "https://kit-free.fontawesome.com/",
+  "https://stackpath.bootstrapcdn.com/",
+  "https://api.mapbox.com/",
+  "https://api.tiles.mapbox.com/",
+  "https://fonts.googleapis.com/",
+  "https://use.fontawesome.com/",
+  "https://cdn.jsdelivr.net/",
+  "https://res.cloudinary.com/dzqkr91yz/",
+];
+const connectSrcUrls = [
+  "https://*.tiles.mapbox.com",
+  "https://api.mapbox.com",
+  "https://events.mapbox.com",
+  "https://res.cloudinary.com/dzqkr91yz/",
+];
+const fontSrcUrls = ["https://res.cloudinary.com/dzqkr91yz/"];
+
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: [],
+      connectSrc: ["'self'", ...connectSrcUrls],
+      scriptSrc: ["'unsafe-inline'", "'self'", ...scriptSrcUrls],
+      styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
+      workerSrc: ["'self'", "blob:"],
+      objectSrc: [],
+      imgSrc: [
+        "'self'",
+        "blob:",
+        "data:",
+        "https://res.cloudinary.com/dzqkr91yz/", //SHOULD MATCH YOUR CLOUDINARY ACCOUNT!
+        "https://images.unsplash.com/",
+        "https://picsum.photos/id/",
+        "https://fastly.picsum.photos/",
+      ],
+      fontSrc: ["'self'", ...fontSrcUrls],
+      mediaSrc: ["https://res.cloudinary.com/dzqkr91yz/"],
+      childSrc: ["blob:"],
+    },
+  })
+);
+app.use(
+  mongoSanitize({
+    replaceWith: "_",
+  })
+);
 // SESSIONS SETUP
 const sessionConfig = {
+  name: "session", // don't use the default name (too easy to hack)
   secret: "thisshouldbeabettersecret!!!",
   resave: false,
   saveUninitialized: true,
   cookie: {
     httpOnly: true,
+    secure: false, // doesn't work on localhost, should be true when deployed
     expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
     maxAge: 1000 * 60 * 60 * 24 * 7,
   },
