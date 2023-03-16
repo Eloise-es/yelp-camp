@@ -12,14 +12,17 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const morgan = require("morgan");
 const session = require("express-session");
+const MongoStore = require("connect-mongo");
 const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const mongoSanitize = require("express-mongo-sanitize");
 const helmet = require("helmet");
-
 const ExpressError = require("./utils/ExpressError");
+
+// ENV VARIABLES
 const PORT = process.env.PORT || 3000;
+const dbUrl = process.env.DB_URL || "mongodb://127.0.0.1:27017/yelp-camp";
 
 // Require the routes
 const userRoutes = require("./routes/users");
@@ -98,7 +101,7 @@ app.use(
     replaceWith: "_",
   })
 );
-// SESSIONS SETUP
+// SESSIONS SETUP (using mongo store)
 const sessionConfig = {
   name: "session", // don't use the default name (too easy to hack)
   secret: "thisshouldbeabettersecret!!!",
@@ -110,6 +113,7 @@ const sessionConfig = {
     expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
     maxAge: 1000 * 60 * 60 * 24 * 7,
   },
+  store: MongoStore.create({ mongoUrl: dbUrl }),
 };
 app.use(session(sessionConfig));
 
@@ -139,7 +143,7 @@ app.use((req, res, next) => {
 // Mongoose connection to MongoDB
 main().catch((err) => console.log(err));
 async function main() {
-  await mongoose.connect("mongodb://127.0.0.1:27017/yelp-camp");
+  await mongoose.connect(dbUrl);
   console.log("mongo connection open");
 }
 
