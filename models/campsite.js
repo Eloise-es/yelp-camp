@@ -55,12 +55,13 @@ const campsiteSchema = new Schema(
 );
 
 campsiteSchema.virtual("properties.popUpHTML").get(function () {
-  return `<h5>${this.title}</h5>
-  <ul>
-  <li>${this.location}</li>
-  <li>£${this.price} per night </li>
-  </ul>
-  <a class="btn btn-sm btn-light" href="/campsites/${this.id}">See more</a>
+  return `
+    <h5 class="card-title">${this.title}</h5>
+    <p>Price per night: £${this.price}</p>
+    <p>${this.description.substring(0, 100)}...</p>
+    <a href="/campsites/${
+      this.id
+    }" class="col btn btn-sm btn-secondary">See more</a>
   `;
   // <h4> ${title}</h4><p>Price per night: ${price}</p>
 });
